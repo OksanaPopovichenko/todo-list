@@ -1,0 +1,23 @@
+name: Linting
+on: [push]
+env:
+  NPM_TOKEN: ${{ secrets.REACT_APP_NPM_TOKEN }}
+  FONT_AWESOME_TOKEN: ${{ secrets.FONT_AWESOME_TOKEN }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Run eslint
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout current branch
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Setup npmrc
+        run: |
+          npm set "//registry.npmjs.org/:_authToken=${{secrets.REACT_APP_NPM_TOKEN}}"
+          npm set @fortawesome:registry=https://npm.fontawesome.com/
+          npm set "//npm.fontawesome.com/:_authToken=${{secrets.FONT_AWESOME_TOKEN}}"
+      - run: npm install
+      - run: npm run build
+      - run: npm run lint
