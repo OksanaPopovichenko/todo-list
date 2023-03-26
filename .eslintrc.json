@@ -31,6 +31,7 @@
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/naming-convention": "off",
+    "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
