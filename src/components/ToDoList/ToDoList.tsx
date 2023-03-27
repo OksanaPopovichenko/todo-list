@@ -14,11 +14,11 @@ export default function TodoList(): JSX.Element {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <div className="flex items-center p-4 hover:bg-gray-50 cursor-pointer relative z-0">
+            <div className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer">
               <input
                 type="checkbox"
                 checked={todo.state}
-                className="h-6 w-6 border rounded-md text-blue-500 cursor-pointer focus:outline-none mr-4"
+                className="h-6 w-6 border rounded-md text-blue-500 cursor-pointer focus:outline-none"
               />
               <span
                 className={`${
@@ -27,10 +27,7 @@ export default function TodoList(): JSX.Element {
               >
                 {todo.title}
               </span>
-              <button
-                type="button"
-                className="text-red-500 hover:text-red-700 relative z-10"
-              >
+              <button type="button" className="text-red-500 hover:text-red-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
