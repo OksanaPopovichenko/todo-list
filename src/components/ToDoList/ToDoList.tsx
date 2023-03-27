@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-no-bind */
 import React from "react";
 import { useTodos } from "../../hooks/useTodoList";
+import ToDo from "../ToDo/ToDo";
 
 export default function TodoList(): JSX.Element {
   const { todos, updateTodo, deleteTodo } = useTodos();
@@ -33,48 +35,15 @@ export default function TodoList(): JSX.Element {
       )}
       <ul className="divide-y divide-dashed">
         {todos.map((todo, index) => (
-          <li key={todo.id}>
-            <div className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={todo.state}
-                onChange={(event) =>
-                  handleTodoStateChange(index, event.target.checked)
-                }
-                className="h-6 w-6 border rounded-md text-blue-500 cursor-pointer focus:outline-none"
-              />
-              <span
-                aria-hidden="true"
-                className={`${
-                  todo.state ? "line-through text-gray-400" : "text-gray-600"
-                } flex-grow outline-none`}
-                onClick={(e) => handleTitleClick(e)}
-                onBlur={(e) => handleTitleBlur(e, index)}
-              >
-                {todo.title}
-              </span>
-              <button
-                type="button"
-                className="text-red-500 hover:text-red-700"
-                onClick={() => deleteTodo(index)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-          </li>
+          <ToDo
+            key={todo.id}
+            index={index}
+            todo={todo}
+            handleTodoStateChange={handleTodoStateChange}
+            handleTitleClick={handleTitleClick}
+            handleTitleBlur={handleTitleBlur}
+            handleDelete={() => deleteTodo(index)}
+          />
         ))}
       </ul>
     </div>
