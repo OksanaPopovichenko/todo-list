@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  html,
+  body {
     font-family: Be Vietnam Pro, system-ui, sans-serif;
+    overflow: auto;
   }
 }
