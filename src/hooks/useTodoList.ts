@@ -1,5 +1,6 @@
 import { useReducerAtom } from "jotai/utils";
-import todosAtom, { State, Todo } from "../atoms/todo";
+import todosAtom, { State } from "../atoms/todo";
+import { Todo } from "../types/todo";
 
 interface AddTodoAction {
   type: "ADD_TODO";

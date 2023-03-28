@@ -1,8 +1,41 @@
-import React from "react";
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from "react";
 import { useTodos } from "../../hooks/useTodoList";
+import ToDo from "../ToDo/ToDo";
+import { Todo } from "../../types/todo";
 
 export default function TodoList(): JSX.Element {
-  const { todos } = useTodos();
+  const { todos, updateTodo, deleteTodo } = useTodos();
+  const [reorderedTodos, setReorderedTodos] = useState<Array<Todo>>([]);
+
+  function handleTodoStateChange(index: number, checked: boolean) {
+    const todo = todos[index];
+    const updatedTodo = { ...todo, state: checked };
+    updateTodo(index, updatedTodo);
+  }
+
+  function handleTitleClick(e: React.MouseEvent<HTMLSpanElement>) {
+    e.currentTarget.contentEditable = "true";
+    e.currentTarget.focus();
+  }
+
+  function handleTitleBlur(
+    e: React.FocusEvent<HTMLSpanElement>,
+    index: number
+  ) {
+    e.currentTarget.contentEditable = "false";
+    const updatedTodo = { ...todos[index], title: e.currentTarget.innerText };
+    updateTodo(index, updatedTodo);
+  }
+
+  useEffect(() => {
+    const newOrder = todos.sort((a, b) =>
+      a.state === b.state ? 0 : a.state ? 1 : -1
+    );
+
+    setReorderedTodos(newOrder);
+  }, [todos]);
 
   return (
     <div className="w-full pt-2">
@@ -11,41 +44,21 @@ export default function TodoList(): JSX.Element {
           No todos to show
         </p>
       )}
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <div className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={todo.state}
-                className="h-6 w-6 border rounded-md text-blue-500 cursor-pointer focus:outline-none"
+      <ul className="divide-y divide-dashed">
+        {reorderedTodos.map((todo, index) => {
+          return (
+            <li key={todo.id}>
+              <ToDo
+                index={index}
+                todo={todo}
+                handleTodoStateChange={handleTodoStateChange}
+                handleTitleClick={handleTitleClick}
+                handleTitleBlur={handleTitleBlur}
+                handleDelete={() => deleteTodo(index)}
               />
-              <span
-                className={`${
-                  todo.state ? "line-through text-gray-400" : "text-gray-600"
-                } flex-grow`}
-              >
-                {todo.title}
-              </span>
-              <button type="button" className="text-red-500 hover:text-red-700">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

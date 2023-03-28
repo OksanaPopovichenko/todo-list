@@ -1,10 +1,5 @@
 import { atom } from "jotai";
-
-export interface Todo {
-  id: number;
-  title: string;
-  state: boolean;
-}
+import { Todo } from "../types/todo";
 
 export interface State {
   todos: Todo[];
