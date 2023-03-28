@@ -1,10 +1,13 @@
 /* eslint-disable react/jsx-no-bind */
-import React from "react";
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from "react";
 import { useTodos } from "../../hooks/useTodoList";
 import ToDo from "../ToDo/ToDo";
+import { Todo } from "../../types/todo";
 
 export default function TodoList(): JSX.Element {
   const { todos, updateTodo, deleteTodo } = useTodos();
+  const [reorderedTodos, setReorderedTodos] = useState<Array<Todo>>([]);
 
   function handleTodoStateChange(index: number, checked: boolean) {
     const todo = todos[index];
@@ -26,6 +29,14 @@ export default function TodoList(): JSX.Element {
     updateTodo(index, updatedTodo);
   }
 
+  useEffect(() => {
+    const newOrder = todos.sort((a, b) =>
+      a.state === b.state ? 0 : a.state ? 1 : -1
+    );
+
+    setReorderedTodos(newOrder);
+  }, [todos]);
+
   return (
     <div className="w-full pt-2">
       {todos.length === 0 && (
@@ -34,17 +45,20 @@ export default function TodoList(): JSX.Element {
         </p>
       )}
       <ul className="divide-y divide-dashed">
-        {todos.map((todo, index) => (
-          <ToDo
-            key={todo.id}
-            index={index}
-            todo={todo}
-            handleTodoStateChange={handleTodoStateChange}
-            handleTitleClick={handleTitleClick}
-            handleTitleBlur={handleTitleBlur}
-            handleDelete={() => deleteTodo(index)}
-          />
-        ))}
+        {reorderedTodos.map((todo, index) => {
+          return (
+            <li key={todo.id}>
+              <ToDo
+                index={index}
+                todo={todo}
+                handleTodoStateChange={handleTodoStateChange}
+                handleTitleClick={handleTitleClick}
+                handleTitleBlur={handleTitleBlur}
+                handleDelete={() => deleteTodo(index)}
+              />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
