@@ -9,7 +9,7 @@ import { Todo } from "../../types/todo";
 
 export default function TodoList(): JSX.Element {
   const { todos, updateTodo, deleteTodo } = useTodos();
-  const [reorderedTodos, setReorderedTodos] = useState<Array<Todo>>([]);
+  const [reorderedTodos, setReorderedTodos] = useState<Todo[]>([]);
 
   function handleTodoStateChange(index: number, checked: boolean) {
     const todo = todos[index];
