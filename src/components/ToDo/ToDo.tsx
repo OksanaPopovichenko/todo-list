@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 import { Todo } from "../../types/todo";
 
 interface ToDoProps {
@@ -22,6 +25,8 @@ export default function ToDo({
   handleDelete,
 }: ToDoProps): JSX.Element {
   const [isEditing, setIsEditing] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
     if (event.key === "Enter") {
@@ -30,8 +35,20 @@ export default function ToDo({
     }
   };
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
   return (
-    <div className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer">
+    <div className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer relative">
       <input
         type="checkbox"
         checked={todo.state}
@@ -50,26 +67,28 @@ export default function ToDo({
       >
         {todo.title}
       </span>
-      <button
-        type="button"
-        className="text-red-500 hover:text-red-700"
-        onClick={handleDelete}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+      <button type="button" onClick={() => setShowDropdown(!showDropdown)}>
+        <FontAwesomeIcon icon={faEllipsis} className="text-gray-600" />
       </button>
+      {showDropdown && (
+        <div
+          ref={menuRef}
+          className="absolute z-10 right-0 top-10 bg-white border border-gray-200 rounded-md shadow-lg py-1"
+        >
+          <div
+            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            onClick={handleDelete}
+            aria-hidden="true"
+          >
+            Delete
+          </div>
+          <Link to={`/${todo.id}`}>
+            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              More info
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
