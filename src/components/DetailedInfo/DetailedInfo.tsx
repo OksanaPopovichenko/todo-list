@@ -25,23 +25,26 @@ function DetailedInfo({ todo }: DetailedInfoProps): JSX.Element {
 
   function handleTitleBlur(
     e: React.FocusEvent<HTMLParagraphElement>,
-    index: number
+    ID: number
   ) {
     e.currentTarget.contentEditable = "false";
-    const updatedTodo = { ...todos[index], title: e.currentTarget.innerText };
-    updateTodo(index, updatedTodo);
+    const el = todos.find((t) => t.id === ID);
+    if (el) {
+      const updatedTodo = { ...el, title: e.currentTarget.innerText };
+      updateTodo(el.id, updatedTodo);
+    }
   }
 
   function handleDescriptionBlur(
     e: React.FocusEvent<HTMLParagraphElement>,
-    index: number
+    ID: number
   ) {
     e.currentTarget.contentEditable = "false";
-    const updatedTodo = {
-      ...todos[index],
-      description: e.currentTarget.innerText,
-    };
-    updateTodo(index, updatedTodo);
+    const el = todos.find((t) => t.id === ID);
+    if (el) {
+      const updatedTodo = { ...el, description: e.currentTarget.innerText };
+      updateTodo(el.id, updatedTodo);
+    }
   }
 
   return (

@@ -10,7 +10,7 @@ interface AddTodoAction {
 interface UpdateTodoAction {
   type: "UPDATE_TODO";
   payload: {
-    index: number;
+    id: number;
     todo: Todo;
   };
 }
@@ -29,9 +29,12 @@ export const reducer = (state: State, action: Action) => {
         todos: [...state.todos, action.payload],
       };
     case "UPDATE_TODO": {
-      const { index, todo } = action.payload;
+      const { id, todo } = action.payload;
       const newTodos = [...state.todos];
-      newTodos[index] = todo;
+      const todoIndex = newTodos.findIndex((t) => t.id === id);
+      if (todoIndex !== -1) {
+        newTodos[todoIndex] = { ...newTodos[todoIndex], ...todo };
+      }
       return {
         todos: newTodos,
       };
@@ -52,8 +55,8 @@ export function useTodos() {
     dispatch({ type: "ADD_TODO", payload: todo });
   }
 
-  function updateTodo(index: number, todo: Todo) {
-    dispatch({ type: "UPDATE_TODO", payload: { index, todo } });
+  function updateTodo(id: number, todo: Todo) {
+    dispatch({ type: "UPDATE_TODO", payload: { id, todo } });
   }
 
   function deleteTodo(index: number) {

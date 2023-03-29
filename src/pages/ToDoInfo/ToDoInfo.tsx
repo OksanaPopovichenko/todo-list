@@ -14,7 +14,7 @@ function ToDoInfo(): JSX.Element {
     if (id) {
       findTodoById(Number(id), todos);
     }
-  }, [id]);
+  }, [id, todos]);
 
   return (
     <div className="bg-blue-600 min-h-screen h-full w-full pt-16">

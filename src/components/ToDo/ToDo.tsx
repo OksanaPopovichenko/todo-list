@@ -3,37 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Todo } from "../../types/todo";
+import { useTodos } from "../../hooks/useTodoList";
 
 interface ToDoProps {
-  index: number;
+  id: number;
   todo: Todo;
-  handleTodoStateChange: (index: number, checked: boolean) => void;
-  handleTitleClick: (e: React.MouseEvent<HTMLSpanElement>) => void;
-  handleTitleBlur: (
-    e: React.FocusEvent<HTMLSpanElement>,
-    index: number
-  ) => void;
-  handleDelete: () => void;
 }
 
-export default function ToDo({
-  index,
-  todo,
-  handleTodoStateChange,
-  handleTitleClick,
-  handleTitleBlur,
-  handleDelete,
-}: ToDoProps): JSX.Element {
-  const [isEditing, setIsEditing] = useState(false);
+export default function ToDo({ id, todo }: ToDoProps): JSX.Element {
   const [showDropdown, setShowDropdown] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      setIsEditing(false);
-    }
-  };
+  const { todos, updateTodo, deleteTodo } = useTodos();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -47,12 +27,34 @@ export default function ToDo({
     };
   }, [menuRef]);
 
+  function handleTodoStateChange(ID: number, checked: boolean) {
+    const item = todos.find((t) => t.id === ID);
+    if (item) {
+      const updatedTodo = { ...item, state: checked };
+      updateTodo(item.id, updatedTodo);
+    }
+  }
+
+  function handleTitleClick(e: React.MouseEvent<HTMLSpanElement>) {
+    e.currentTarget.contentEditable = "true";
+    e.currentTarget.focus();
+  }
+
+  function handleTitleBlur(e: React.FocusEvent<HTMLSpanElement>, ID: number) {
+    e.currentTarget.contentEditable = "false";
+    const el = todos.find((t) => t.id === ID);
+    if (el) {
+      const updatedTodo = { ...el, title: e.currentTarget.innerText };
+      updateTodo(el.id, updatedTodo);
+    }
+  }
+
   return (
     <div className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer relative">
       <input
         type="checkbox"
         checked={todo.state}
-        onChange={(event) => handleTodoStateChange(index, event.target.checked)}
+        onChange={(event) => handleTodoStateChange(id, event.target.checked)}
         className="h-6 w-6 border rounded-md text-blue-500 cursor-pointer focus:outline-none"
       />
       <span
@@ -61,9 +63,8 @@ export default function ToDo({
           todo.state ? "line-through text-gray-400" : "text-gray-600"
         } flex-grow outline-none`}
         onClick={handleTitleClick}
-        onBlur={(e) => handleTitleBlur(e, index)}
-        contentEditable={isEditing ? "true" : "false"}
-        onKeyDown={handleKeyDown}
+        onBlur={(e) => handleTitleBlur(e, id)}
+        contentEditable="true"
       >
         {todo.title}
       </span>
@@ -77,7 +78,7 @@ export default function ToDo({
         >
           <div
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-            onClick={handleDelete}
+            onClick={() => deleteTodo(id)}
             aria-hidden="true"
           >
             Delete
