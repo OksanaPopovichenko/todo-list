@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import DetailedInfo from "../../components/DetailedInfo/DetailedInfo";
 import { useFindTodo } from "../../hooks/useDetails";
 import { useTodos } from "../../hooks/useTodoList";
@@ -7,10 +8,13 @@ import { useTodos } from "../../hooks/useTodoList";
 function ToDoInfo(): JSX.Element {
   const { todos } = useTodos();
   const { currentTodo, findTodoById } = useFindTodo();
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    findTodoById(1, todos);
-  }, []);
+    if (id) {
+      findTodoById(Number(id), todos);
+    }
+  }, [id]);
 
   return (
     <div className="bg-blue-600 min-h-screen h-full w-full pt-16">

@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-nested-ternary */
+import React, { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Link } from "react-router-dom";
 import { useTodos } from "../../hooks/useTodoList";
@@ -10,12 +11,14 @@ interface DetailedInfoProps {
 
 function DetailedInfo({ todo }: DetailedInfoProps): JSX.Element {
   const { todos, updateTodo } = useTodos();
+  const [isDescriptionFocused, setIsFocused] = useState(false);
 
   function handleClick(
     e:
       | React.MouseEvent<HTMLHeadingElement>
       | React.MouseEvent<HTMLParagraphElement>
   ) {
+    setIsFocused(true);
     e.currentTarget.contentEditable = "true";
     e.currentTarget.focus();
   }
@@ -42,7 +45,7 @@ function DetailedInfo({ todo }: DetailedInfoProps): JSX.Element {
   }
 
   return (
-    <div>
+    <div className="min-h-[inherit]">
       {todo ? (
         <div className="min-h-[inherit] flex flex-col justify-between">
           <PerfectScrollbar className="w-full max-h-[350px] overflow-y-auto">
@@ -73,7 +76,11 @@ function DetailedInfo({ todo }: DetailedInfoProps): JSX.Element {
                 onBlur={(e) => handleDescriptionBlur(e, todo.id)}
                 aria-hidden="true"
               >
-                {todo.description}
+                {isDescriptionFocused
+                  ? todo.description
+                  : todo.description
+                  ? todo.description
+                  : "Add a description..."}
               </p>
             </div>
           </PerfectScrollbar>
