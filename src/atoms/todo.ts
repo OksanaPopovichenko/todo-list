@@ -7,7 +7,12 @@ export interface State {
 
 export const initialState = {
   todos: [
-    { id: 1, title: "Buy groceries", state: false },
+    {
+      id: 1,
+      title: "Buy groceries",
+      state: false,
+      description: "Avocado, potato, cucumbers, onion",
+    },
     { id: 2, title: "Clean the house", state: true },
     { id: 3, title: "Go for a walk", state: false },
   ],

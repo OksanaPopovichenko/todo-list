@@ -6,6 +6,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { Provider } from "jotai";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import ToDoInfo from "./pages/ToDoInfo/ToDoInfo";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,6 +17,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
+          <Route path="/:title" element={<ToDoInfo />} />
         </Routes>
       </BrowserRouter>
     </Provider>
