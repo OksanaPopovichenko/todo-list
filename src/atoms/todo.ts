@@ -2,17 +2,18 @@ import { atom } from "jotai";
 import { Todo } from "../types/todo";
 
 export interface State {
-  todos: Todo[];
+  currentTodo: Todo | undefined;
 }
 
 export const initialState = {
-  todos: [
-    { id: 1, title: "Buy groceries", state: false },
-    { id: 2, title: "Clean the house", state: true },
-    { id: 3, title: "Go for a walk", state: false },
-  ],
+  currentTodo: {
+    id: 0,
+    title: "",
+    state: false,
+    description: "",
+  },
 };
 
-const todosAtom = atom<State>(initialState);
+const todoAtom = atom<State>(initialState);
 
-export default todosAtom;
+export default todoAtom;
