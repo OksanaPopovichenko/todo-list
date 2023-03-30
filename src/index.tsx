@@ -17,7 +17,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/:id" element={<ToDoInfo />} />
+          <Route path=":id" element={<ToDoInfo />} />
         </Routes>
       </BrowserRouter>
     </Provider>
