@@ -26,7 +26,9 @@
     "fix-lint": "eslint --ext .ts --ext .tsx ./src --fix",
     "ci": "jest --coverage",
     "type-check": "tsc --noEmit",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -59,6 +61,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0",
     "jest": "^27.4.7",
     "jest-extended": "^2.0.0",
     "prettier": "2.8.0",
