@@ -41,7 +41,7 @@ export const reducer = (state: State, action: Action) => {
     }
     case "DELETE_TODO":
       return {
-        todos: state.todos.filter((_, i) => i !== action.payload),
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
       };
     default:
       return state;
@@ -59,8 +59,8 @@ export function useTodos() {
     dispatch({ type: "UPDATE_TODO", payload: { id, todo } });
   }
 
-  function deleteTodo(index: number) {
-    dispatch({ type: "DELETE_TODO", payload: index });
+  function deleteTodo(id: number) {
+    dispatch({ type: "DELETE_TODO", payload: id });
   }
 
   return { todos: state.todos, addTodo, updateTodo, deleteTodo };
