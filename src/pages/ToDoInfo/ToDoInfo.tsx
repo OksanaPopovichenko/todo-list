@@ -17,11 +17,11 @@ function ToDoInfo(): JSX.Element {
   }, [id, todos]);
 
   return (
-    <div className="bg-blue-600 min-h-screen h-full w-full pt-16">
+    <div className="bg-blue-600 min-h-screen h-full w-full pt-8">
       <h1 className="text-center text-2xl font-bold text-white py-3">
         ToDo Info
       </h1>
-      <div className="bg-white rounded-md w-[550px] mx-auto min-h-[400px] p-4">
+      <div className="bg-white rounded-md w-[550px] mx-auto min-h-[400px] max-h-[550px] p-4">
         <DetailedInfo todo={currentTodo} />
       </div>
     </div>

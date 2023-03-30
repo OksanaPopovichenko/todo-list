@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { Provider } from "jotai";
-import App from "./App";
+import App from "./pages/Homepage/App";
 import reportWebVitals from "./reportWebVitals";
 import ToDoInfo from "./pages/ToDoInfo/ToDoInfo";
 

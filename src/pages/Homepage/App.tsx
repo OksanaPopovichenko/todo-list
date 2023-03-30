@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import TodoList from "./components/ToDoList/ToDoList";
-import { useTodos } from "./hooks/useTodoList";
-import { Todo } from "./types/todo";
+import TodoList from "../../components/ToDoList/ToDoList";
+import { useTodos } from "../../hooks/useTodoList";
+import { Todo } from "../../types/todo";
 
 function App(): JSX.Element {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [error, setError] = useState(false);
   const { todos, addTodo } = useTodos();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (title.trim() === "") {
-      alert("Please enter a title for the todo");
-      return;
-    }
 
     const newTodo: Todo = {
       id: Math.max(...todos.map((todo) => todo.id)) + 1,
@@ -22,6 +18,11 @@ function App(): JSX.Element {
       description: description.trim(),
       state: false,
     };
+
+    if (title.trim() === "") {
+      setError(true);
+      return;
+    }
 
     addTodo(newTodo);
 
@@ -32,6 +33,7 @@ function App(): JSX.Element {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setError(false);
   };
 
   const handleDescriptionChange = (
@@ -45,15 +47,18 @@ function App(): JSX.Element {
       <h1 className="text-center text-2xl font-bold text-white py-3">
         ToDo List
       </h1>
-      <div className="bg-white rounded-md w-[550px] mx-auto min-h-[400px] max-h-[550px] p-4 flex flex-col gap-4">
+      <div className="bg-white rounded-md w-[550px] mx-auto min-h-[500px] max-h-[500px] p-4 flex flex-col gap-4">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3">
             <input
               type="text"
               placeholder="Title"
-              className="w-full border-gray-400 border rounded-md px-3 py-2"
+              className={`w-full border rounded-md px-3 py-2 ${
+                error ? "border-red-400" : "border-gray-400"
+              }`}
               value={title}
               onChange={handleTitleChange}
+              required
             />
             <textarea
               rows={2}
