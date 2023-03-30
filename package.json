@@ -2,7 +2,7 @@
   "name": "todo-list",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://oksanapopovichenko.github.io/todo-list/",
+  "homepage": "https://OksanaPopovichenko.github.io/todo-list/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
@@ -28,8 +28,8 @@
     "ci": "jest --coverage",
     "type-check": "tsc --noEmit",
     "test": "jest --watch",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
