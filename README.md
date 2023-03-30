@@ -1,5 +1,8 @@
 # ToDo List
 
+## Demo
+https://oksanapopovichenko.github.io/todo-list/
+
 ## Getting started
 
 Start the application
