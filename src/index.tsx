@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider>
-      <BrowserRouter>
+      <BrowserRouter basename="/todo-list">
         <Routes>
           <Route path="/" element={<App />} />
           <Route path=":id" element={<ToDoInfo />} />
