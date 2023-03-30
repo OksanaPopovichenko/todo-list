@@ -26,7 +26,7 @@ export default function TodoList(): JSX.Element {
   };
 
   return (
-    <PerfectScrollbar className="w-full max-h-[350px] overflow-y-auto min-h-[inherit]">
+    <PerfectScrollbar className="w-full max-h-[350px] min-h-[285px] overflow-y-auto">
       {todos.length === 0 && (
         <p className="text-center text-lg text-gray-400 relative">
           No todos to show

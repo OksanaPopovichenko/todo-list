@@ -26,7 +26,7 @@ export const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case "ADD_TODO":
       return {
-        todos: [...state.todos, action.payload],
+        todos: [action.payload, ...state.todos],
       };
     case "UPDATE_TODO": {
       const { id, todo } = action.payload;
