@@ -11,7 +11,7 @@ npm run start
 
 ## Tools
 
-- [React](https://reactjs.org) - a cJavaScript library for building user interfaces
+- [React](https://reactjs.org) - a JavaScript library for building user interfaces
 - [Typescript](https://www.typescriptlang.org) - JavaScript with types
 - [Tailwind](https://tailwindcss.com/) - a CSS framework
 - [Jotai](https://jotai.org) - a global states management
